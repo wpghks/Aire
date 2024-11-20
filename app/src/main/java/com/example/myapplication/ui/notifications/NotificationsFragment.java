@@ -15,13 +15,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.myapplication.R;
 import com.example.myapplication.item.AddProductActivity; // AddProductActivity 임포트
 import com.example.myapplication.databinding.FragmentNotificationsBinding;
+import com.example.myapplication.item.ProductListActivity;
 
 public class NotificationsFragment extends Fragment {
 
     private TextView inid;
-    private Button initem;
+    private Button initem, productlist;
     private FragmentNotificationsBinding binding;
     private String correctId = "12";
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -34,6 +36,7 @@ public class NotificationsFragment extends Fragment {
         // TextView 및 Button 초기화
         inid = binding.inid;
         initem = binding.initem;
+        productlist = binding.productlist;
 
         // 전달된 데이터로 UI 업데이트
         if (getArguments() != null) {
@@ -48,14 +51,21 @@ public class NotificationsFragment extends Fragment {
 
             // 아이디 비교 및 버튼 가시성 설정
             if (correctId.equals(id)) {
-                initem.setVisibility(View.VISIBLE); // 숨겨진 버튼 보이기
+                initem.setVisibility(View.VISIBLE);
+                productlist.setVisibility(View.VISIBLE); // 숨겨진 버튼 보이기
+                productlist.setOnClickListener(v -> {
+                    // AddProductActivity로 이동
+                    Intent intent = new Intent(getActivity(), ProductListActivity.class);
+                    startActivity(intent);
+                });
                 initem.setOnClickListener(v -> {
                     // AddProductActivity로 이동
                     Intent intent = new Intent(getActivity(), AddProductActivity.class);
                     startActivity(intent);
                 });
             } else {
-                initem.setVisibility(View.INVISIBLE); // 버튼 숨기기
+                initem.setVisibility(View.INVISIBLE);
+                productlist.setVisibility(View.INVISIBLE);// 버튼 숨기기
             }
         }
 
