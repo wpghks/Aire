@@ -1,0 +1,50 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/et_product_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="상품 이름 입력"
+        android:inputType="text"
+        android:layout_marginTop="30dp" />
+
+    <EditText
+        android:id="@+id/et_product_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="상품 가격 입력"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/et_product_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="상품 설명 입력"
+        android:inputType="textMultiLine"
+        android:minLines="3" />
+
+    <ImageView
+        android:id="@+id/iv_product_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_default_image" /> <!-- 기본 이미지 아이콘 -->
+
+    <Button
+        android:id="@+id/btn_select_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이미지 선택" />
+
+    <Button
+        android:id="@+id/btn_save_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="저장" />
+</LinearLayout>
