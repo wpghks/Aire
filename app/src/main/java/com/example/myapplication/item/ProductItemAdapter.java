@@ -56,7 +56,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             tvProductPrice = itemView.findViewById(R.id.product_price); // 기존 ID 사용
             tvProductDescription = itemView.findViewById(R.id.product_description); // 기존 ID 사용
             ivProductImage = itemView.findViewById(R.id.product_image); // 기존 ID 사용
-            tvProductCategory = itemView.findViewById(R.id.product_category); // 카테고리 텍스트뷰 추가
+            tvProductCategory = itemView.findViewById(R.id.product_category); // 카테고리 텍스트뷰 추가 ~~~~test~~~~
         }
     }
 }
