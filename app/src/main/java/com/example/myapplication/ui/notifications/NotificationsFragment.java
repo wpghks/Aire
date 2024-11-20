@@ -22,7 +22,7 @@ public class NotificationsFragment extends Fragment {
     private TextView inid;
     private Button initem, productlist;
     private FragmentNotificationsBinding binding;
-    private String correctId = "12";
+    private String correctId = "yjh11080";
 
 
     @Override

@@ -37,15 +37,6 @@ public class OuterFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        // 예시 상품 데이터 생성
-        List<Product> productList = new ArrayList<>();
-        productList.add(new Product("상의", "₩10,000", "편안한 티셔츠", R.drawable.top));
-        productList.add(new Product("바지", "₩20,000", "청바지", R.drawable.pants));
-        productList.add(new Product("스포츠", "₩30,000", "운동복", R.drawable.sport));
-
-        // ProductAdapter 설정
-        ProductAdapter adapter = new ProductAdapter(getContext(), productList);
-        recyclerView.setAdapter(adapter);
 
         // 버튼 클릭 리스너 설정
         Button sh = root.findViewById(R.id.button);

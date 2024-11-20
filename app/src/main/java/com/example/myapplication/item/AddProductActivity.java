@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,11 +27,23 @@ public class AddProductActivity extends AppCompatActivity {
     private ImageView ivProductImage;
     private Button btnSelectImage, btnSaveProduct;
     private Uri selectedImageUri;
+    private Spinner categorySpinner; // 카테고리 Spinner 추가
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_product);
+
+        // Spinner 초기화
+        categorySpinner = findViewById(R.id.spinner_category);
+
+        // 카테고리 목록 생성
+        String[] categories = {"상의", "하의", "스포츠", "신발", "아우터", "악세서리"};
+
+        // ArrayAdapter 생성하여 Spinner에 연결
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(adapter);
 
         // UI 요소 초기화
         etProductName = findViewById(R.id.et_product_name);
@@ -67,6 +81,7 @@ public class AddProductActivity extends AppCompatActivity {
         String name = etProductName.getText().toString().trim();
         String price = etProductPrice.getText().toString().trim();
         String description = etProductDescription.getText().toString().trim();
+        String category = categorySpinner.getSelectedItem().toString(); // 선택된 카테고리 가져오기
 
         if (name.isEmpty() || price.isEmpty() || description.isEmpty() || selectedImageUri == null) {
             Toast.makeText(this, "모든 필드를 입력하세요", Toast.LENGTH_SHORT).show();
@@ -79,12 +94,15 @@ public class AddProductActivity extends AppCompatActivity {
         // 이미지 리소스를 설정하기 위한 기본 이미지 ID
         int imageResourceId = R.drawable.ic_default_image; // 기본 이미지 리소스 ID로 변경
 
-        Product product = new Product(name, price, description, imageResourceId); // Product 객체 생성
+        // Product 객체 생성 (카테고리 추가)
+        Product product = new Product(name, price, description, imageResourceId, category); // 카테고리 추가
+
         dbHelper.addProduct(product); // Product 객체를 사용하여 추가
 
         Toast.makeText(this, "상품이 저장되었습니다!", Toast.LENGTH_SHORT).show();
         finish(); // 상품 추가 후 액티비티 종료
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // 액션바에 메뉴를 인플레이트

@@ -23,6 +23,21 @@ public class ShirtsFragment extends Fragment {
         binding = FragmentShirtsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+//        recyclerView = root.findViewById(R.id.recycler_view);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//
+//        // 셔츠 카테고리 데이터 설정
+//        shirtsList = new ArrayList<>();
+//        shirtsList.add("티셔츠");
+//        shirtsList.add("셔츠");
+//
+//        categoryAdapter = new CategoryAdapter(shirtsList);
+//        recyclerView.setAdapter(categoryAdapter);
+
+
+
+
+
 //        Button sh = root.findViewById(R.id.button);
 //        sh.setOnClickListener(v -> {
 //            // 다른 프래그먼트로 이동
