@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myapplication.R;
-import com.example.myapplication.item.AddProductActivity; // AddProductActivity 임포트
+import com.example.myapplication.item.AddProductActivity;
 import com.example.myapplication.databinding.FragmentNotificationsBinding;
 import com.example.myapplication.item.ProductListActivity;
 
@@ -54,7 +54,7 @@ public class NotificationsFragment extends Fragment {
                 initem.setVisibility(View.VISIBLE);
                 productlist.setVisibility(View.VISIBLE); // 숨겨진 버튼 보이기
                 productlist.setOnClickListener(v -> {
-                    // AddProductActivity로 이동
+                    // 상품리스트로 이동
                     Intent intent = new Intent(getActivity(), ProductListActivity.class);
                     startActivity(intent);
                 });

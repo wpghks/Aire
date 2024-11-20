@@ -37,9 +37,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.productName.setText(product.getName());
-        holder.productPrice.setText(product.getPrice());
-        holder.productDescription.setText(product.getDescription()); // 상품 설명 추가
-        holder.productImage.setImageResource(product.getImageResourceId());
+        holder.productPrice.setText(String.valueOf(product.getPrice()));
+        holder.productDescription.setText(product.getDescription());
+
+        // 이미지가 유효한지 체크하고 없으면 기본 이미지를 설정
+        if (product.getImageResourceId() != 0) {
+            holder.productImage.setImageResource(product.getImageResourceId());
+        } else {
+            holder.productImage.setImageResource(R.drawable.ic_default_image);  // 기본 이미지 리소스
+        }
 
         holder.itemView.setOnClickListener(v -> {
             Log.d("ProductAdapter", "Item clicked: " + product.getName());
@@ -51,6 +57,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             context.startActivity(intent);
         });
     }
+
 
     @Override
     public int getItemCount() {

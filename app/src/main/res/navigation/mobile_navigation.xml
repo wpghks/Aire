@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard" />
+        <action
+            android:id="@+id/action_navigation_home_to_zzim"
+            app:destination="@id/zzim" />
+        <action
+            android:id="@+id/action_navigation_home_to_search"
+            app:destination="@id/search" />
     </fragment>
 
     <fragment
@@ -48,6 +54,12 @@
         <action
             android:id="@+id/action_navigation_dashboard_self"
             app:destination="@id/navigation_dashboard" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_zzim"
+            app:destination="@id/zzim" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_search"
+            app:destination="@id/search" />
     </fragment>
 
     <fragment
@@ -58,6 +70,12 @@
         <action
             android:id="@+id/action_navigation_notifications_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_zzim"
+            app:destination="@id/zzim" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_search"
+            app:destination="@id/search" />
     </fragment>
 
     <fragment
@@ -80,6 +98,12 @@
         <action
             android:id="@+id/action_navigation_pants_to_navigation_accessory"
             app:destination="@id/navigation_accessory" />
+        <action
+            android:id="@+id/action_navigation_pants_to_zzim"
+            app:destination="@id/zzim" />
+        <action
+            android:id="@+id/action_navigation_pants_to_search"
+            app:destination="@id/search" />
     </fragment>
     <fragment
         android:id="@+id/navigation_sports"
@@ -101,6 +125,12 @@
         <action
             android:id="@+id/action_navigation_sports_to_navigation_pants"
             app:destination="@id/navigation_pants" />
+        <action
+            android:id="@+id/action_navigation_sports_to_zzim"
+            app:destination="@id/zzim" />
+        <action
+            android:id="@+id/action_navigation_sports_to_search"
+            app:destination="@id/search" />
     </fragment>
     <fragment
         android:id="@+id/navigation_shoes"
@@ -122,6 +152,12 @@
         <action
             android:id="@+id/action_navigation_shoes_to_navigation_accessory"
             app:destination="@id/navigation_accessory" />
+        <action
+            android:id="@+id/action_navigation_shoes_to_zzim"
+            app:destination="@id/zzim" />
+        <action
+            android:id="@+id/action_navigation_shoes_to_search"
+            app:destination="@id/search" />
     </fragment>
 
     <fragment
@@ -144,6 +180,12 @@
         <action
             android:id="@+id/action_navigation_outer_to_navigation_shirts"
             app:destination="@id/navigation_shirts" />
+        <action
+            android:id="@+id/action_navigation_outer_to_search"
+            app:destination="@id/search" />
+        <action
+            android:id="@+id/action_navigation_outer_to_zzim"
+            app:destination="@id/zzim" />
     </fragment>
 
     <fragment
@@ -184,6 +226,12 @@
         <action
             android:id="@+id/action_navigation_shirts_to_navigation_accessory2"
             app:destination="@id/navigation_accessory" />
+        <action
+            android:id="@+id/action_navigation_shirts_to_zzim"
+            app:destination="@id/zzim" />
+        <action
+            android:id="@+id/action_navigation_shirts_to_search"
+            app:destination="@id/search" />
     </fragment>
     <fragment
         android:id="@+id/navigation_accessory"
@@ -205,6 +253,12 @@
         <action
             android:id="@+id/action_navigation_accessory_to_navigation_shoes"
             app:destination="@id/navigation_shoes" />
+        <action
+            android:id="@+id/action_navigation_accessory_to_search"
+            app:destination="@id/search" />
+        <action
+            android:id="@+id/action_navigation_accessory_to_zzim"
+            app:destination="@id/zzim" />
     </fragment>
     <activity
         android:id="@+id/addProductActivity"
