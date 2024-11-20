@@ -1,6 +1,7 @@
 package com.example.myapplication.item;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +13,7 @@ import java.util.List;
 public class ProductListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ProductAdapter adapter;
+    private ProductItemAdapter adapter;
     private ProductDatabaseHelper databaseHelper;
 
     @Override
@@ -30,8 +31,8 @@ public class ProductListActivity extends AppCompatActivity {
         // 데이터베이스에서 상품 목록 읽기
         List<Product> productList = databaseHelper.getAllProducts(); // 모든 상품 읽기
 
-        // 어댑터 설정
-        adapter = new ProductAdapter(this, productList);
+        // 어댑터 설정 (ProductItemAdapter로 변경하여 카테고리 표시)
+        adapter = new ProductItemAdapter(productList, this);
         recyclerView.setAdapter(adapter);
     }
 }

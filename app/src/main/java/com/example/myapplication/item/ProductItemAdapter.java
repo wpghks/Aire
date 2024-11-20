@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +38,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         holder.tvProductPrice.setText(product.getPrice());
         holder.tvProductDescription.setText(product.getDescription());
         holder.ivProductImage.setImageResource(product.getImageResourceId()); // 이미지 설정
+        holder.tvProductCategory.setText(product.getCategory()); // 카테고리 추가
     }
 
     @Override
@@ -45,7 +47,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView tvProductName, tvProductPrice, tvProductDescription;
+        TextView tvProductName, tvProductPrice, tvProductDescription, tvProductCategory;
         ImageView ivProductImage;
 
         public ProductViewHolder(@NonNull View itemView) {
@@ -54,6 +56,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             tvProductPrice = itemView.findViewById(R.id.product_price); // 기존 ID 사용
             tvProductDescription = itemView.findViewById(R.id.product_description); // 기존 ID 사용
             ivProductImage = itemView.findViewById(R.id.product_image); // 기존 ID 사용
+            tvProductCategory = itemView.findViewById(R.id.product_category); // 카테고리 텍스트뷰 추가
         }
     }
 }
