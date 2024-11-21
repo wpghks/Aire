@@ -1,6 +1,7 @@
 package com.example.myapplication.item;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +22,8 @@ public class ProductActivity extends AppCompatActivity {
         String productName = intent.getStringExtra("PRODUCT_NAME");
         String productPrice = intent.getStringExtra("PRODUCT_PRICE");
         String productDescription = intent.getStringExtra("PRODUCT_DESCRIPTION");
-        int productImage = intent.getIntExtra("PRODUCT_IMAGE", 0);
+        String productImageUri = intent.getStringExtra("PRODUCT_IMAGE"); // URI를 String으로 받아오기
+        Uri productImage = Uri.parse(productImageUri); // String을 Uri로 변환
 
         // UI에 데이터 설정하기
         TextView nameTextView = findViewById(R.id.product_name);
@@ -32,6 +34,6 @@ public class ProductActivity extends AppCompatActivity {
         nameTextView.setText(productName);
         priceTextView.setText(productPrice);
         descriptionTextView.setText(productDescription);
-        productImageView.setImageResource(productImage);
+        productImageView.setImageURI(productImage); // Uri를 ImageView에 설정
     }
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_PRICE = "price";
     private static final String COLUMN_DESCRIPTION = "description";
-    private static final String COLUMN_IMAGE = "image";
+    private static final String COLUMN_IMAGE = "image";  // 이미지 URI로 저장
     private static final String COLUMN_CATEGORY = "category"; // 카테고리 컬럼 추가
 
     public ProductDatabaseHelper(Context context) {
@@ -31,7 +33,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_NAME + " TEXT, " +
                 COLUMN_PRICE + " TEXT, " +
                 COLUMN_DESCRIPTION + " TEXT, " +
-                COLUMN_IMAGE + " INTEGER, " +
+                COLUMN_IMAGE + " TEXT, " + // 이미지 URI를 TEXT로 저장
                 COLUMN_CATEGORY + " TEXT)"; // 카테고리 컬럼 추가
         db.execSQL(createTable);
     }
@@ -49,7 +51,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, product.getName());
         values.put(COLUMN_PRICE, product.getPrice());
         values.put(COLUMN_DESCRIPTION, product.getDescription());
-        values.put(COLUMN_IMAGE, product.getImageResourceId()); // imageResourceId로 저장
+        values.put(COLUMN_IMAGE, product.getImageUri() != null ? product.getImageUri().toString() : ""); // null 체크 후 저장
         values.put(COLUMN_CATEGORY, product.getCategory()); // 카테고리 저장
 
         db.insert(TABLE_NAME, null, values);
@@ -60,20 +62,22 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
     public List<Product> getAllProducts() {
         List<Product> productList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
 
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
-                String price = cursor.getString(cursor.getColumnIndex(COLUMN_PRICE));
-                String description = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION));
-                int imageResourceId = cursor.getInt(cursor.getColumnIndex(COLUMN_IMAGE));
-                String category = cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY)); // 카테고리 가져오기
+        // Cursor를 try-with-resources로 처리하여 자동으로 닫히도록 함
+        try (Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
+                    String price = cursor.getString(cursor.getColumnIndex(COLUMN_PRICE));
+                    String description = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION));
+                    String imageUriString = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE)); // 이미지 URI를 String으로 가져오기
+                    Uri imageUri = imageUriString != null && !imageUriString.isEmpty() ? Uri.parse(imageUriString) : null; // null 체크
+                    String category = cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY)); // 카테고리 가져오기
 
-                Product product = new Product(name, price, description, imageResourceId, category);
-                productList.add(product);
+                    Product product = new Product(name, price, description, imageUri, category); // URI로 객체 생성
+                    productList.add(product);
+                } while (cursor.moveToNext());
             }
-            cursor.close();
         }
         db.close();
         return productList;
@@ -83,20 +87,22 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
     public List<Product> getProductsByCategory(String category) {
         List<Product> productList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, null, COLUMN_CATEGORY + " = ?", new String[]{category}, null, null, null);
 
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
-                String price = cursor.getString(cursor.getColumnIndex(COLUMN_PRICE));
-                String description = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION));
-                int imageResourceId = cursor.getInt(cursor.getColumnIndex(COLUMN_IMAGE));
-                String categoryFromDb = cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY));
+        // Cursor를 try-with-resources로 처리하여 자동으로 닫히도록 함
+        try (Cursor cursor = db.query(TABLE_NAME, null, COLUMN_CATEGORY + " = ?", new String[]{category}, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
+                    String price = cursor.getString(cursor.getColumnIndex(COLUMN_PRICE));
+                    String description = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION));
+                    String imageUriString = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE)); // 이미지 URI를 String으로 가져오기
+                    Uri imageUri = imageUriString != null && !imageUriString.isEmpty() ? Uri.parse(imageUriString) : null; // null 체크
+                    String categoryFromDb = cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY));
 
-                Product product = new Product(name, price, description, imageResourceId, categoryFromDb);
-                productList.add(product);
+                    Product product = new Product(name, price, description, imageUri, categoryFromDb);
+                    productList.add(product);
+                } while (cursor.moveToNext());
             }
-            cursor.close();
         }
         db.close();
         return productList;

@@ -1,6 +1,8 @@
 package com.example.myapplication.item;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.myapplication.R;
 import com.example.myapplication.search;
@@ -33,6 +37,12 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_product);
+
+        // 권한 요청
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // 권한이 없으면 요청
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
 
         // Spinner 초기화
         categorySpinner = findViewById(R.id.spinner_category);
@@ -91,11 +101,8 @@ public class AddProductActivity extends AppCompatActivity {
         // ProductDatabaseHelper 사용
         ProductDatabaseHelper dbHelper = new ProductDatabaseHelper(this);
 
-        // 이미지 리소스를 설정하기 위한 기본 이미지 ID
-        int imageResourceId = R.drawable.ic_default_image; // 기본 이미지 리소스 ID로 변경
-
-        // Product 객체 생성 (카테고리 추가)
-        Product product = new Product(name, price, description, imageResourceId, category); // 카테고리 추가
+        // Product 객체 생성 (카테고리 추가, 이미지 URI 사용)
+        Product product = new Product(name, price, description, selectedImageUri, category); // selectedImageUri 사용
 
         dbHelper.addProduct(product); // Product 객체를 사용하여 추가
 
@@ -121,5 +128,20 @@ public class AddProductActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // 권한 요청 결과 처리
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 권한 허용됨
+                Toast.makeText(this, "권한이 허용되었습니다", Toast.LENGTH_SHORT).show();
+            } else {
+                // 권한 거부됨
+                Toast.makeText(this, "권한을 거부하셨습니다", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

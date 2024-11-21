@@ -1,6 +1,7 @@
 package com.example.myapplication.item;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,14 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         holder.tvProductName.setText(product.getName());
         holder.tvProductPrice.setText(product.getPrice());
         holder.tvProductDescription.setText(product.getDescription());
-        holder.ivProductImage.setImageResource(product.getImageResourceId()); // 이미지 설정
+
+        // 이미지 URI가 null이 아니면 URI로 설정, 아니면 기본 이미지 설정
+        if (product.getImageUri() != null) {
+            holder.ivProductImage.setImageURI(product.getImageUri()); // URI로 이미지 설정
+        } else {
+            holder.ivProductImage.setImageResource(R.drawable.ic_default_image);  // 기본 이미지 설정
+        }
+
         holder.tvProductCategory.setText(product.getCategory()); // 카테고리 추가
     }
 
@@ -56,7 +64,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             tvProductPrice = itemView.findViewById(R.id.product_price); // 기존 ID 사용
             tvProductDescription = itemView.findViewById(R.id.product_description); // 기존 ID 사용
             ivProductImage = itemView.findViewById(R.id.product_image); // 기존 ID 사용
-            tvProductCategory = itemView.findViewById(R.id.product_category); // 카테고리 텍스트뷰 추가 ~~~~test~~~~
+            tvProductCategory = itemView.findViewById(R.id.product_category); // 카테고리 텍스트뷰 추가
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.dashboard;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.productName.setText(product.getName());
         holder.productPrice.setText(product.getPrice());
         holder.productDescription.setText(product.getDescription());
-        holder.productImage.setImageResource(product.getImageResourceId());
+
+        // 이미지가 Uri로 저장되었으므로, Uri를 사용하여 이미지를 설정
+        Uri imageUri = product.getImageUri();
+        if (imageUri != null) {
+            holder.productImage.setImageURI(imageUri); // 이미지 URI 설정
+        } else {
+            holder.productImage.setImageResource(R.drawable.ic_default_image); // 기본 이미지 설정
+        }
     }
 
     @Override

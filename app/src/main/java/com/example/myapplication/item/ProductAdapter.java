@@ -2,6 +2,7 @@ package com.example.myapplication.item;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,9 +41,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.productPrice.setText(String.valueOf(product.getPrice()));
         holder.productDescription.setText(product.getDescription());
 
-        // 이미지가 유효한지 체크하고 없으면 기본 이미지를 설정
-        if (product.getImageResourceId() != 0) {
-            holder.productImage.setImageResource(product.getImageResourceId());
+        // 이미지 URI가 유효한지 체크하고 없으면 기본 이미지를 설정
+        if (product.getImageUri() != null) {
+            holder.productImage.setImageURI(product.getImageUri()); // URI로 이미지 설정
         } else {
             holder.productImage.setImageResource(R.drawable.ic_default_image);  // 기본 이미지 리소스
         }
@@ -53,11 +54,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             intent.putExtra("PRODUCT_NAME", product.getName());
             intent.putExtra("PRODUCT_PRICE", product.getPrice());
             intent.putExtra("PRODUCT_DESCRIPTION", product.getDescription());
-            intent.putExtra("PRODUCT_IMAGE", product.getImageResourceId());
+            intent.putExtra("PRODUCT_IMAGE", product.getImageUri().toString());  // URI를 String으로 전달
             context.startActivity(intent);
         });
     }
-
 
     @Override
     public int getItemCount() {

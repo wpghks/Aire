@@ -1,19 +1,30 @@
 package com.example.myapplication.item;
 
+import android.net.Uri;
+
 public class Product {
     private String name;
     private String price;
     private String description;
-    private int imageResourceId;
-    private String category; // 카테고리 필드 추가
+    private String imageUri;  // URI를 String으로 변경
+    private String category;
 
-    // 생성자에 카테고리 추가
-    public Product(String name, String price, String description, int imageResourceId, String category) {
+    // 생성자에 카테고리와 URI를 String으로 받음
+    public Product(String name, String price, String description, Uri imageUri, String category) {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.imageResourceId = imageResourceId;
+        this.imageUri = imageUri.toString();  // URI를 String으로 변환하여 저장
         this.category = category;
+    }
+
+    // 이미지 URI를 String으로 반환
+    public Uri getImageUri() {
+        return Uri.parse(imageUri);  // String을 URI로 변환하여 반환
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri.toString();  // URI를 String으로 변환하여 저장
     }
 
     // Getter 메소드
@@ -27,10 +38,6 @@ public class Product {
 
     public String getDescription() {
         return description;
-    }
-
-    public int getImageResourceId() {
-        return imageResourceId;
     }
 
     public String getCategory() {
@@ -50,10 +57,6 @@ public class Product {
         this.description = description;
     }
 
-    public void setImageResourceId(int imageResourceId) {
-        this.imageResourceId = imageResourceId;
-    }
-
     public void setCategory(String category) {
         this.category = category;
     }
@@ -65,7 +68,7 @@ public class Product {
                 "name='" + name + '\'' +
                 ", price='" + price + '\'' +
                 ", description='" + description + '\'' +
-                ", imageResourceId=" + imageResourceId +
+                ", imageUri=" + imageUri +  // imageUri는 이제 String으로 저장됨
                 ", category='" + category + '\'' +
                 '}';
     }

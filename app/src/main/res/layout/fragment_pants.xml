@@ -83,7 +83,7 @@
         <!-- 나머지 콘텐츠를 아래에 배치 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="764dp"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -91,7 +91,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="1193dp"
                 android:layout_marginTop="16dp" />
 
         </LinearLayout>
