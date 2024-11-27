@@ -17,6 +17,7 @@ import com.example.myapplication.databinding.FragmentPantsBinding;
 import com.example.myapplication.item.Product;
 import com.example.myapplication.item.ProductDatabaseHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PantsFragment extends Fragment {
@@ -42,6 +43,9 @@ public class PantsFragment extends Fragment {
 
         // 데이터베이스에서 팬츠 데이터 가져오기
         List<Product> pantsList = databaseHelper.getProductsByCategory("하의");
+        if (pantsList == null) {
+            pantsList = new ArrayList<>(); // 빈 리스트로 초기화
+        }
 
         // 어댑터 설정
         categoryAdapter = new CategoryAdapter(pantsList);

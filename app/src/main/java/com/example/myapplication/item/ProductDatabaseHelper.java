@@ -13,7 +13,7 @@ import java.util.List;
 public class ProductDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "products.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;  // 버전 2로 변경
     private static final String TABLE_NAME = "products";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
@@ -28,6 +28,7 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // 데이터베이스 버전 1에 대한 테이블 생성
         String createTable = "CREATE TABLE " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " +
@@ -40,8 +41,10 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
+        // 버전이 2로 업그레이드 될 때, category 컬럼을 추가
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + COLUMN_CATEGORY + " TEXT;");
+        }
     }
 
     // 상품 추가 메소드
@@ -63,19 +66,27 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
         List<Product> productList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Cursor를 try-with-resources로 처리하여 자동으로 닫히도록 함
         try (Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
                 do {
-                    String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
-                    String price = cursor.getString(cursor.getColumnIndex(COLUMN_PRICE));
-                    String description = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION));
-                    String imageUriString = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE)); // 이미지 URI를 String으로 가져오기
-                    Uri imageUri = imageUriString != null && !imageUriString.isEmpty() ? Uri.parse(imageUriString) : null; // null 체크
-                    String category = cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY)); // 카테고리 가져오기
+                    // 각 컬럼 인덱스를 안전하게 가져오기
+                    int nameIndex = cursor.getColumnIndex(COLUMN_NAME);
+                    int priceIndex = cursor.getColumnIndex(COLUMN_PRICE);
+                    int descriptionIndex = cursor.getColumnIndex(COLUMN_DESCRIPTION);
+                    int imageUriIndex = cursor.getColumnIndex(COLUMN_IMAGE);
+                    int categoryIndex = cursor.getColumnIndex(COLUMN_CATEGORY);
 
-                    Product product = new Product(name, price, description, imageUri, category); // URI로 객체 생성
-                    productList.add(product);
+                    if (nameIndex != -1 && priceIndex != -1 && descriptionIndex != -1 && imageUriIndex != -1 && categoryIndex != -1) {
+                        String name = cursor.getString(nameIndex);
+                        String price = cursor.getString(priceIndex);
+                        String description = cursor.getString(descriptionIndex);
+                        String imageUriString = cursor.getString(imageUriIndex); // 이미지 URI를 String으로 가져오기
+                        Uri imageUri = imageUriString != null && !imageUriString.isEmpty() ? Uri.parse(imageUriString) : null; // null 체크
+                        String category = cursor.getString(categoryIndex); // 카테고리 가져오기
+
+                        Product product = new Product(name, price, description, imageUri, category); // URI로 객체 생성
+                        productList.add(product);
+                    }
                 } while (cursor.moveToNext());
             }
         }
@@ -88,19 +99,27 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
         List<Product> productList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Cursor를 try-with-resources로 처리하여 자동으로 닫히도록 함
         try (Cursor cursor = db.query(TABLE_NAME, null, COLUMN_CATEGORY + " = ?", new String[]{category}, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
                 do {
-                    String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
-                    String price = cursor.getString(cursor.getColumnIndex(COLUMN_PRICE));
-                    String description = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION));
-                    String imageUriString = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE)); // 이미지 URI를 String으로 가져오기
-                    Uri imageUri = imageUriString != null && !imageUriString.isEmpty() ? Uri.parse(imageUriString) : null; // null 체크
-                    String categoryFromDb = cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY));
+                    // 각 컬럼 인덱스를 안전하게 가져오기
+                    int nameIndex = cursor.getColumnIndex(COLUMN_NAME);
+                    int priceIndex = cursor.getColumnIndex(COLUMN_PRICE);
+                    int descriptionIndex = cursor.getColumnIndex(COLUMN_DESCRIPTION);
+                    int imageUriIndex = cursor.getColumnIndex(COLUMN_IMAGE);
+                    int categoryIndex = cursor.getColumnIndex(COLUMN_CATEGORY);
 
-                    Product product = new Product(name, price, description, imageUri, categoryFromDb);
-                    productList.add(product);
+                    if (nameIndex != -1 && priceIndex != -1 && descriptionIndex != -1 && imageUriIndex != -1 && categoryIndex != -1) {
+                        String name = cursor.getString(nameIndex);
+                        String price = cursor.getString(priceIndex);
+                        String description = cursor.getString(descriptionIndex);
+                        String imageUriString = cursor.getString(imageUriIndex); // 이미지 URI를 String으로 가져오기
+                        Uri imageUri = imageUriString != null && !imageUriString.isEmpty() ? Uri.parse(imageUriString) : null; // null 체크
+                        String categoryFromDb = cursor.getString(categoryIndex);
+
+                        Product product = new Product(name, price, description, imageUri, categoryFromDb);
+                        productList.add(product);
+                    }
                 } while (cursor.moveToNext());
             }
         }

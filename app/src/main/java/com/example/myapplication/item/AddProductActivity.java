@@ -72,9 +72,15 @@ public class AddProductActivity extends AppCompatActivity {
 
     // 1. 이미지 선택하기 - 갤러리 열기
     private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        startActivityForResult(intent, 100); // Request code: 100
+        // 권한 체크 후 갤러리 열기
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("image/*");
+            startActivityForResult(intent, 100); // Request code: 100
+        } else {
+            // 권한이 없으면 요청
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
     }
 
     // 2. 이미지 선택 결과 처리
@@ -138,6 +144,7 @@ public class AddProductActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // 권한 허용됨
                 Toast.makeText(this, "권한이 허용되었습니다", Toast.LENGTH_SHORT).show();
+                openGallery(); // 권한이 허용되면 갤러리 열기
             } else {
                 // 권한 거부됨
                 Toast.makeText(this, "권한을 거부하셨습니다", Toast.LENGTH_SHORT).show();

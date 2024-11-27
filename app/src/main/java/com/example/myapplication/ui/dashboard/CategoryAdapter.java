@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.item.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
@@ -21,7 +22,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     // 생성자
     public CategoryAdapter(List<Product> productList) {
-        this.productList = productList;
+        // Null 체크를 통해 안전하게 초기화
+        this.productList = productList != null ? productList : new ArrayList<>();
     }
 
     @NonNull
