@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +55,13 @@ public class ProductDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NAME, product.getName());
         values.put(COLUMN_PRICE, product.getPrice());
         values.put(COLUMN_DESCRIPTION, product.getDescription());
-        values.put(COLUMN_IMAGE, product.getImageUri() != null ? product.getImageUri().toString() : ""); // null 체크 후 저장
+        values.put(COLUMN_IMAGE, product.getImageUri() != null ? product.getImageUri().toString() : null); // null 체크 후 null이면 null로 저장
         values.put(COLUMN_CATEGORY, product.getCategory()); // 카테고리 저장
 
         // 데이터 삽입 성공 여부 확인
         long result = db.insert(TABLE_NAME, null, values);
+        Log.d("Product Added", "Name: " + product.getName() + ", Category: " + product.getCategory() + ", Image URI: " + product.getImageUri());
+
         db.close();
         return result != -1; // 삽입 성공 시 true 반환, 실패 시 false 반환
     }

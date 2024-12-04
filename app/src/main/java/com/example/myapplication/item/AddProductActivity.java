@@ -3,6 +3,8 @@ package com.example.myapplication.item;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -92,8 +94,37 @@ public class AddProductActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null) {
             selectedImageUri = data.getData(); // 선택한 이미지의 URI를 가져옵니다.
             ivProductImage.setImageURI(selectedImageUri); // 이미지 뷰에 URI를 설정합니다.
+
+            // 이미지 URI를 스캔하여 미디어 저장소에 추가합니다.
+            scanMediaFile(selectedImageUri);
         }
     }
+
+    private void scanMediaFile(Uri fileUri) {
+        String path = null;
+        if (fileUri.getScheme().equals("content")) {
+            // content URI인 경우
+            Cursor cursor = getContentResolver().query(fileUri, null, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+                if (columnIndex != -1) {
+                    path = cursor.getString(columnIndex); // 실제 경로 추출
+                }
+                cursor.close();
+            }
+        } else if (fileUri.getScheme().equals("file")) {
+            // file URI인 경우
+            path = fileUri.getPath();
+        }
+
+        if (path != null) {
+            MediaScannerConnection.scanFile(this, new String[]{path}, null, (path1, uri) -> {
+                Log.d("MediaScanner", "Media scan completed for: " + path1);
+            });
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -118,6 +149,9 @@ public class AddProductActivity extends AppCompatActivity {
             return;
         }
 
+        // 이미지 URI 로그 확인
+        Log.d("AddProductActivity", "Selected Image URI: " + selectedImageUri);
+
         // ProductDatabaseHelper 사용
         ProductDatabaseHelper dbHelper = new ProductDatabaseHelper(this);
 
@@ -138,9 +172,6 @@ public class AddProductActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.top_nav_menu, menu);
         return true;
     }
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

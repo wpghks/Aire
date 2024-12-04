@@ -2,6 +2,7 @@ package com.example.myapplication.item;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 
 import java.util.List;
@@ -38,15 +40,19 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         holder.tvProductName.setText(product.getName());
         holder.tvProductPrice.setText(product.getPrice());
         holder.tvProductDescription.setText(product.getDescription());
+        holder.tvProductCategory.setText(product.getCategory());
 
-        // 이미지 URI가 null이 아니면 URI로 설정, 아니면 기본 이미지 설정
+        // 이미지 URI가 null이 아니면 Glide로 이미지 로딩, 아니면 기본 이미지 설정
         if (product.getImageUri() != null) {
-            holder.ivProductImage.setImageURI(product.getImageUri()); // URI로 이미지 설정
+            Glide.with(context)
+                    .load(product.getImageUri())  // URI를 Glide로 로드
+                    .placeholder(R.drawable.ic_default_image)  // 기본 이미지 설정
+                    .into(holder.ivProductImage);  // ImageView에 설정
         } else {
-            holder.ivProductImage.setImageResource(R.drawable.ic_default_image);  // 기본 이미지 설정
+            Glide.with(context)
+                    .load(R.drawable.ic_default_image)  // 기본 이미지 설정
+                    .into(holder.ivProductImage);  // ImageView에 설정
         }
-
-        holder.tvProductCategory.setText(product.getCategory()); // 카테고리 추가
     }
 
     @Override
@@ -60,11 +66,11 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvProductName = itemView.findViewById(R.id.product_name); // 기존 ID 사용
-            tvProductPrice = itemView.findViewById(R.id.product_price); // 기존 ID 사용
-            tvProductDescription = itemView.findViewById(R.id.product_description); // 기존 ID 사용
-            ivProductImage = itemView.findViewById(R.id.product_image); // 기존 ID 사용
-            tvProductCategory = itemView.findViewById(R.id.product_category); // 카테고리 텍스트뷰 추가
+            tvProductName = itemView.findViewById(R.id.product_name);
+            tvProductPrice = itemView.findViewById(R.id.product_price);
+            tvProductDescription = itemView.findViewById(R.id.product_description);
+            ivProductImage = itemView.findViewById(R.id.product_image);
+            tvProductCategory = itemView.findViewById(R.id.product_category);
         }
     }
 }

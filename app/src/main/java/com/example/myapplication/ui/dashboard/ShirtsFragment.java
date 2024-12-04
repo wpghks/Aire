@@ -10,12 +10,23 @@ import com.example.myapplication.R;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.databinding.FragmentPantsBinding;
 import com.example.myapplication.databinding.FragmentShirtsBinding;
+import com.example.myapplication.item.Product;
+import com.example.myapplication.item.ProductDatabaseHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShirtsFragment extends Fragment {
 
     private FragmentShirtsBinding binding;
+    private RecyclerView recyclerView;
+    private CategoryAdapter categoryAdapter;
+    private ProductDatabaseHelper databaseHelper;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -23,29 +34,24 @@ public class ShirtsFragment extends Fragment {
         binding = FragmentShirtsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-//        recyclerView = root.findViewById(R.id.recycler_view);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//
-//        // 셔츠 카테고리 데이터 설정
-//        shirtsList = new ArrayList<>();
-//        shirtsList.add("티셔츠");
-//        shirtsList.add("셔츠");
-//
-//        categoryAdapter = new CategoryAdapter(shirtsList);
-//        recyclerView.setAdapter(categoryAdapter);
+        // RecyclerView 초기화
+        recyclerView = root.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // 2열로 설정
 
+        // 데이터베이스 초기화
+        databaseHelper = new ProductDatabaseHelper(getContext());
 
+        // 데이터베이스에서 팬츠 데이터 가져오기
+        List<Product> shirtsList = databaseHelper.getProductsByCategory("상의");
+        if (shirtsList == null) {
+            shirtsList = new ArrayList<>(); // 빈 리스트로 초기화
+        }
 
+        // 어댑터 설정
+        categoryAdapter = new CategoryAdapter(shirtsList);
+        recyclerView.setAdapter(categoryAdapter);
 
-
-//        Button sh = root.findViewById(R.id.button);
-//        sh.setOnClickListener(v -> {
-//            // 다른 프래그먼트로 이동
-//            NavHostFragment.findNavController(ShirtsFragment.this)
-//                    .navigate(R.id.action_navigation_shirts_to_navigation_shirts); // 상의로 이동
-//        });
-
-
+        // 이동 버튼 설정
         Button buttonNavigate = root.findViewById(R.id.button2);
         buttonNavigate.setOnClickListener(v -> {
             // 다른 프래그먼트로 이동

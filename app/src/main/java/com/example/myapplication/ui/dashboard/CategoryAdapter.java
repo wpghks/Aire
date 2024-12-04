@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.item.Product;
 
@@ -46,9 +47,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         // 이미지가 Uri로 저장되었으므로, Uri를 사용하여 이미지를 설정
         Uri imageUri = product.getImageUri();
         if (imageUri != null) {
-            holder.productImage.setImageURI(imageUri); // 이미지 URI 설정
+            // Glide를 사용하여 이미지 로딩
+            Glide.with(holder.productImage.getContext())
+                    .load(imageUri)
+                    .placeholder(R.drawable.ic_default_image) // 기본 이미지 설정
+                    .into(holder.productImage);
         } else {
-            holder.productImage.setImageResource(R.drawable.ic_default_image); // 기본 이미지 설정
+            // 이미지 URI가 없으면 기본 이미지 설정
+            holder.productImage.setImageResource(R.drawable.ic_default_image);
         }
     }
 
