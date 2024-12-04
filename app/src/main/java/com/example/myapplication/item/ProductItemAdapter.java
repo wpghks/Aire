@@ -1,6 +1,8 @@
 package com.example.myapplication.item;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.ProductViewHolder> {
@@ -39,11 +43,18 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         holder.tvProductPrice.setText(product.getPrice());
         holder.tvProductDescription.setText(product.getDescription());
 
-        // 이미지 URI가 null이 아니면 URI로 설정, 아니면 기본 이미지 설정
+        // 이미지 URI가 null이 아니면 비트맵으로 변환하여 설정, 아니면 기본 이미지 설정
         if (product.getImageUri() != null) {
-            holder.ivProductImage.setImageURI(product.getImageUri()); // URI로 이미지 설정
+            try {
+                InputStream in = context.getContentResolver().openInputStream(product.getImageUri());
+                Bitmap bitmap = BitmapFactory.decodeStream(in);
+                holder.ivProductImage.setImageBitmap(bitmap); // 비트맵으로 설정
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                holder.ivProductImage.setImageResource(R.drawable.ic_default_image); // 기본 이미지 설정
+            }
         } else {
-            holder.ivProductImage.setImageResource(R.drawable.ic_default_image);  // 기본 이미지 설정
+            holder.ivProductImage.setImageResource(R.drawable.ic_default_image); // 기본 이미지 설정
         }
 
         holder.tvProductCategory.setText(product.getCategory()); // 카테고리 추가

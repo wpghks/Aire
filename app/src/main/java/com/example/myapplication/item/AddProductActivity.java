@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -15,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -25,32 +24,27 @@ import com.example.myapplication.R;
 import com.example.myapplication.search;
 import com.example.myapplication.zzim;
 
+import org.jetbrains.annotations.Nullable;
+
 public class AddProductActivity extends AppCompatActivity {
 
     private EditText etProductName, etProductPrice, etProductDescription;
     private ImageView ivProductImage;
     private Button btnSelectImage, btnSaveProduct;
     private Uri selectedImageUri;
-    private Spinner categorySpinner; // 카테고리 Spinner 추가
+    private Spinner categorySpinner;
+
+    private static final int REQUEST_CODE_PERMISSION = 1;
+    private static final int REQUEST_CODE_GALLERY = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_product);
 
-        // 권한 요청
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            // 권한이 없으면 요청
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
-
         // Spinner 초기화
         categorySpinner = findViewById(R.id.spinner_category);
-
-        // 카테고리 목록 생성
         String[] categories = {"상의", "하의", "스포츠", "신발", "아우터", "악세서리"};
-
-        // ArrayAdapter 생성하여 Spinner에 연결
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
@@ -64,32 +58,52 @@ public class AddProductActivity extends AppCompatActivity {
         btnSaveProduct = findViewById(R.id.btn_save_product);
 
         // 이미지 선택 버튼 클릭 리스너
-        btnSelectImage.setOnClickListener(v -> openGallery());
+        btnSelectImage.setOnClickListener(v -> {
+            if (checkPermission()) {
+                openGallery();
+            } else {
+                requestPermission();
+            }
+        });
 
         // 저장 버튼 클릭 리스너
         btnSaveProduct.setOnClickListener(v -> saveProduct());
     }
 
-    // 1. 이미지 선택하기 - 갤러리 열기
-    private void openGallery() {
-        // 권한 체크 후 갤러리 열기
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.setType("image/*");
-            startActivityForResult(intent, 100); // Request code: 100
-        } else {
-            // 권한이 없으면 요청
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
+    private boolean checkPermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        return permissionCheck == PackageManager.PERMISSION_GRANTED;
     }
 
-    // 2. 이미지 선택 결과 처리
+    private void requestPermission() {
+        Log.d("Permission", "권한 요청을 보냅니다.");
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*"); // 이미지 타입으로 설정
+        startActivityForResult(intent, REQUEST_CODE_GALLERY); // 100은 요청 코드
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
-            selectedImageUri = data.getData();
-            ivProductImage.setImageURI(selectedImageUri); // 이미지 미리보기 업데이트
+        if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null) {
+            selectedImageUri = data.getData(); // 선택한 이미지의 URI를 가져옵니다.
+            ivProductImage.setImageURI(selectedImageUri); // 이미지 뷰에 URI를 설정합니다.
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery(); // 권한이 승인되면 갤러리 열기
+            } else {
+                Toast.makeText(this, "권한이 필요합니다", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -97,7 +111,7 @@ public class AddProductActivity extends AppCompatActivity {
         String name = etProductName.getText().toString().trim();
         String price = etProductPrice.getText().toString().trim();
         String description = etProductDescription.getText().toString().trim();
-        String category = categorySpinner.getSelectedItem().toString(); // 선택된 카테고리 가져오기
+        String category = categorySpinner.getSelectedItem().toString();
 
         if (name.isEmpty() || price.isEmpty() || description.isEmpty() || selectedImageUri == null) {
             Toast.makeText(this, "모든 필드를 입력하세요", Toast.LENGTH_SHORT).show();
@@ -107,24 +121,29 @@ public class AddProductActivity extends AppCompatActivity {
         // ProductDatabaseHelper 사용
         ProductDatabaseHelper dbHelper = new ProductDatabaseHelper(this);
 
-        // Product 객체 생성 (카테고리 추가, 이미지 URI 사용)
-        Product product = new Product(name, price, description, selectedImageUri, category); // selectedImageUri 사용
+        // Product 객체 생성
+        Product product = new Product(name, price, description, selectedImageUri, category);
 
-        dbHelper.addProduct(product); // Product 객체를 사용하여 추가
-
-        Toast.makeText(this, "상품이 저장되었습니다!", Toast.LENGTH_SHORT).show();
-        finish(); // 상품 추가 후 액티비티 종료
+        // 데이터베이스에 저장
+        if (dbHelper.addProduct(product)) {
+            Toast.makeText(this, "상품이 저장되었습니다!", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(this, "상품 저장 실패", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // 액션바에 메뉴를 인플레이트
         getMenuInflater().inflate(R.menu.top_nav_menu, menu);
         return true;
     }
 
+
+
+
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_zzim) {
             startActivity(new Intent(this, zzim.class));
@@ -134,21 +153,5 @@ public class AddProductActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    // 권한 요청 결과 처리
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 권한 허용됨
-                Toast.makeText(this, "권한이 허용되었습니다", Toast.LENGTH_SHORT).show();
-                openGallery(); // 권한이 허용되면 갤러리 열기
-            } else {
-                // 권한 거부됨
-                Toast.makeText(this, "권한을 거부하셨습니다", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }

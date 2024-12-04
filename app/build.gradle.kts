@@ -36,8 +36,8 @@ android {
 }
 
 dependencies {
-    implementation("com.github.bumptech.glide:glide:4.16.0")  // Glide 라이브러리 추가
-    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")  // Glide 컴파일러 추가
+    implementation("com.github.bumptech.glide:glide:4.15.1")  // Glide 라이브러리 추가
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")  // Glide 컴파일러 추가
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
