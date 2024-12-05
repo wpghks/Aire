@@ -47,11 +47,11 @@ public class AccessoryFragment extends Fragment {
             acceList = new ArrayList<>(); // 빈 리스트로 초기화
         }
 
-        // 어댑터 설정
-        categoryAdapter = new CategoryAdapter(acceList);
+        // 어댑터 설정 (Context 추가)
+        categoryAdapter = new CategoryAdapter(acceList, getContext());
         recyclerView.setAdapter(categoryAdapter);
 
-
+        // 버튼 클릭 리스너
         Button sh = root.findViewById(R.id.button);
         sh.setOnClickListener(v -> {
             // 다른 프래그먼트로 이동
@@ -86,14 +86,6 @@ public class AccessoryFragment extends Fragment {
             NavHostFragment.findNavController(AccessoryFragment.this)
                     .navigate(R.id.action_navigation_accessory_to_navigation_outer); // 아우터로 이동
         });
-
-//        Button ac = root.findViewById(R.id.button6);
-//        ac.setOnClickListener(v -> {
-//            // 다른 프래그먼트로 이동
-//            NavHostFragment.findNavController(SportsFragment.this)
-//                    .navigate(R.id.action_navigation_sports_to_navigation_accessory); // 악세서리 이동
-//        });
-
 
         return root;
     }

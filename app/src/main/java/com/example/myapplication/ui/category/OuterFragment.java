@@ -49,7 +49,7 @@ public class OuterFragment extends Fragment {
         }
 
         // 어댑터 설정
-        categoryAdapter = new CategoryAdapter(outerList);
+        categoryAdapter = new CategoryAdapter(outerList, getContext());
         recyclerView.setAdapter(categoryAdapter);
 
 

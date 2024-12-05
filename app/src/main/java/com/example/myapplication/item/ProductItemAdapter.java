@@ -1,8 +1,8 @@
 package com.example.myapplication.item;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
+import android.content.Intent;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
+
 
 import java.util.List;
 
@@ -52,6 +53,19 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
                     .load(R.drawable.ic_default_image)  // 기본 이미지 설정
                     .into(holder.ivProductImage);  // ImageView에 설정
         }
+
+        // 아이템 클릭 시 상세 페이지로 이동
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), ProductActivity.class);
+
+            // 데이터 전달
+            intent.putExtra("PRODUCT_NAME", product.getName());
+            intent.putExtra("PRODUCT_PRICE", product.getPrice());
+            intent.putExtra("PRODUCT_DESCRIPTION", product.getDescription());
+            intent.putExtra("PRODUCT_IMAGE", product.getImageUri().toString()); // URI를 String으로 전달
+
+            holder.itemView.getContext().startActivity(intent); // ProductActivity로 이동
+        });
     }
 
     @Override

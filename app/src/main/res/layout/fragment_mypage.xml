@@ -9,51 +9,51 @@
 
     <Button
         android:id="@+id/productlist"
-        android:layout_width="409dp"
+        android:layout_width="350dp"
         android:layout_height="69dp"
         android:text="상품 목록"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.909" />
 
     <Button
         android:id="@+id/ju"
-        android:layout_width="410dp"
+        android:layout_width="350dp"
         android:layout_height="80dp"
         android:text="주문 내역 조회"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.353" />
 
     <Button
-        android:id="@+id/jang"
-        android:layout_width="410dp"
+        android:id="@+id/cart"
+        android:layout_width="350dp"
         android:layout_height="80dp"
         android:text="장바구니"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.23" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="91dp"
-        android:layout_height="105dp"
+        android:id="@+id/profile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.087"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.025"
-        tools:src="@tools:sample/avatars" />
+        android:src="@drawable/default_profile" />
 
     <TextView
         android:id="@+id/inid"
@@ -94,36 +94,36 @@
 
     <Button
         android:id="@+id/center"
-        android:layout_width="410dp"
+        android:layout_width="350dp"
         android:layout_height="80dp"
         android:text="고객센터"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.476" />
 
     <Button
         android:id="@+id/info"
-        android:layout_width="410dp"
+        android:layout_width="350dp"
         android:layout_height="80dp"
         android:text="공지사항"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.599" />
 
     <Button
         android:id="@+id/initem"
-        android:layout_width="409dp"
+        android:layout_width="350dp"
         android:layout_height="69dp"
         android:text="상품 추가"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.771" />

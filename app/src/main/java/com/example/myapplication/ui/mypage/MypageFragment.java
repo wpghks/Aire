@@ -11,30 +11,30 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.databinding.FragmentMypageBinding;
 import com.example.myapplication.item.AddProductActivity;
-import com.example.myapplication.databinding.FragmentNotificationsBinding;
 import com.example.myapplication.item.ProductListActivity;
 
 public class MypageFragment extends Fragment {
 
     private TextView inid;
-    private Button initem, productlist;
-    private FragmentNotificationsBinding binding;
+    private Button initem, productlist, cart;
+    private FragmentMypageBinding binding;
     private String correctId = "yjh11080";
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        // FragmentNotificationsBinding을 사용하여 레이아웃과 연결
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        // FragmentMypageBinding을 사용하여 레이아웃과 연결
+        binding = FragmentMypageBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         // TextView 및 Button 초기화
         inid = binding.inid;
         initem = binding.initem;
         productlist = binding.productlist;
+        cart = binding.cart;  // 카트 버튼 추가
 
         // 전달된 데이터로 UI 업데이트
         if (getArguments() != null) {
@@ -51,19 +51,32 @@ public class MypageFragment extends Fragment {
             if (correctId.equals(id)) {
                 initem.setVisibility(View.VISIBLE);
                 productlist.setVisibility(View.VISIBLE); // 숨겨진 버튼 보이기
+                cart.setVisibility(View.VISIBLE); // 카트 버튼 보이기
+
+                // 상품 리스트 버튼 클릭
                 productlist.setOnClickListener(v -> {
                     // 상품리스트로 이동
                     Intent intent = new Intent(getActivity(), ProductListActivity.class);
                     startActivity(intent);
                 });
+
+                // 상품 추가 버튼 클릭
                 initem.setOnClickListener(v -> {
                     // AddProductActivity로 이동
                     Intent intent = new Intent(getActivity(), AddProductActivity.class);
                     startActivity(intent);
                 });
+
+                // 카트 버튼 클릭
+                cart.setOnClickListener(v -> {
+                    // CartActivity로 이동
+                    Intent intent = new Intent(getActivity(), CartActivity.class);
+                    startActivity(intent);
+                });
             } else {
                 initem.setVisibility(View.INVISIBLE);
-                productlist.setVisibility(View.INVISIBLE);// 버튼 숨기기
+                productlist.setVisibility(View.INVISIBLE); // 버튼 숨기기
+                cart.setVisibility(View.INVISIBLE); // 카트 버튼 숨기기
             }
         }
 
@@ -75,6 +88,4 @@ public class MypageFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-
 }

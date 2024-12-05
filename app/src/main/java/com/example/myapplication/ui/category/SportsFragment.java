@@ -48,7 +48,7 @@ public class SportsFragment extends Fragment {
         }
 
         // 어댑터 설정
-        categoryAdapter = new CategoryAdapter(sportsList);
+        categoryAdapter = new CategoryAdapter(sportsList, getContext());
         recyclerView.setAdapter(categoryAdapter);
 
 

@@ -47,7 +47,7 @@ public class ShirtsFragment extends Fragment {
         }
 
         // 어댑터 설정
-        categoryAdapter = new CategoryAdapter(shirtsList);
+        categoryAdapter = new CategoryAdapter(shirtsList, getContext());
         recyclerView.setAdapter(categoryAdapter);
 
         // 이동 버튼 설정

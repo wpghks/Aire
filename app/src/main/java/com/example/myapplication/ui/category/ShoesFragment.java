@@ -48,7 +48,7 @@ public class ShoesFragment extends Fragment {
         }
 
         // 어댑터 설정
-        categoryAdapter = new CategoryAdapter(shoesList);
+        categoryAdapter = new CategoryAdapter(shoesList, getContext());
         recyclerView.setAdapter(categoryAdapter);
 
 
