@@ -1,5 +1,6 @@
-package com.example.myapplication.ui.dashboard;
+package com.example.myapplication.ui.category;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.example.myapplication.item.Product;
+import com.example.myapplication.item.ProductActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         // 데이터를 View에 바인딩
         holder.productName.setText(product.getName());
         holder.productPrice.setText(product.getPrice());
-        holder.productDescription.setText(product.getDescription());
 
         // 이미지가 Uri로 저장되었으므로, Uri를 사용하여 이미지를 설정
         Uri imageUri = product.getImageUri();
@@ -56,6 +57,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             // 이미지 URI가 없으면 기본 이미지 설정
             holder.productImage.setImageResource(R.drawable.ic_default_image);
         }
+
+        // 아이템 클릭 시 상세 페이지로 이동
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), ProductActivity.class);
+
+            // 데이터 전달
+            intent.putExtra("PRODUCT_NAME", product.getName());
+            intent.putExtra("PRODUCT_PRICE", product.getPrice());
+            intent.putExtra("PRODUCT_DESCRIPTION", product.getDescription());
+            intent.putExtra("PRODUCT_IMAGE", product.getImageUri().toString()); // URI를 String으로 전달
+
+            holder.itemView.getContext().startActivity(intent); // ProductActivity로 이동
+        });
     }
 
     @Override
@@ -66,14 +80,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     // ViewHolder 클래스
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView productName, productPrice, productDescription;
+        TextView productName, productPrice;
         ImageView productImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
             productName = itemView.findViewById(R.id.product_name);
             productPrice = itemView.findViewById(R.id.product_price);
-            productDescription = itemView.findViewById(R.id.product_description);
             productImage = itemView.findViewById(R.id.product_image);
         }
     }

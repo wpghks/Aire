@@ -3,6 +3,7 @@ package com.example.myapplication.item;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,10 +13,11 @@ import com.example.myapplication.R;
 
 public class ProductActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_product); // 수정된 부분
+        setContentView(R.layout.item_product);
 
         // Intent에서 데이터 받기
         Intent intent = getIntent();
@@ -35,5 +37,10 @@ public class ProductActivity extends AppCompatActivity {
         priceTextView.setText(productPrice);
         descriptionTextView.setText(productDescription);
         productImageView.setImageURI(productImage); // Uri를 ImageView에 설정
+
+        // descriptionTextView를 보이게 설정
+        descriptionTextView.setVisibility(View.VISIBLE); // 이제 보이게 만듬
+
+
     }
 }

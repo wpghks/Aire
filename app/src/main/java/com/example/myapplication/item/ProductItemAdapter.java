@@ -39,7 +39,6 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         Product product = productList.get(position);
         holder.tvProductName.setText(product.getName());
         holder.tvProductPrice.setText(product.getPrice());
-        holder.tvProductDescription.setText(product.getDescription());
         holder.tvProductCategory.setText(product.getCategory());
 
         // 이미지 URI가 null이 아니면 Glide로 이미지 로딩, 아니면 기본 이미지 설정
@@ -61,14 +60,13 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView tvProductName, tvProductPrice, tvProductDescription, tvProductCategory;
+        TextView tvProductName, tvProductPrice, tvProductCategory;
         ImageView ivProductImage;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             tvProductName = itemView.findViewById(R.id.product_name);
             tvProductPrice = itemView.findViewById(R.id.product_price);
-            tvProductDescription = itemView.findViewById(R.id.product_description);
             ivProductImage = itemView.findViewById(R.id.product_image);
             tvProductCategory = itemView.findViewById(R.id.product_category);
         }

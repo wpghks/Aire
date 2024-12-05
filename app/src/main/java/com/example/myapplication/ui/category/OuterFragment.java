@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.dashboard;
+package com.example.myapplication.ui.category;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,29 +13,45 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.databinding.FragmentOuterBinding;
+import com.example.myapplication.databinding.FragmentPantsBinding;
 import com.example.myapplication.item.Product;
-import com.example.myapplication.item.ProductAdapter;
+import com.example.myapplication.item.ProductDatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OuterFragment extends Fragment {
 
-    private FragmentOuterBinding binding;
+    private FragmentPantsBinding binding;
+    private RecyclerView recyclerView;
+    private CategoryAdapter categoryAdapter;
+    private ProductDatabaseHelper databaseHelper;
 
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentOuterBinding.inflate(inflater, container, false);
+        binding = FragmentPantsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         // RecyclerView 초기화
-        RecyclerView recyclerView = root.findViewById(R.id.recycler_view);
+        recyclerView = root.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // 2열로 설정
 
-        // GridLayoutManager로 변경하여 한 줄에 2개 표시
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        // 데이터베이스 초기화
+        databaseHelper = new ProductDatabaseHelper(getContext());
+
+        // 데이터베이스에서 팬츠 데이터 가져오기
+        List<Product> outerList = databaseHelper.getProductsByCategory("아우터");
+        if (outerList == null) {
+            outerList = new ArrayList<>(); // 빈 리스트로 초기화
+        }
+
+        // 어댑터 설정
+        categoryAdapter = new CategoryAdapter(outerList);
+        recyclerView.setAdapter(categoryAdapter);
+
 
 
         // 버튼 클릭 리스너 설정

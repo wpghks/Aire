@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.notifications;
+package com.example.myapplication.ui.mypage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +10,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.myapplication.R;
 import com.example.myapplication.item.AddProductActivity;
 import com.example.myapplication.databinding.FragmentNotificationsBinding;
 import com.example.myapplication.item.ProductListActivity;
 
-public class NotificationsFragment extends Fragment {
+public class MypageFragment extends Fragment {
 
     private TextView inid;
     private Button initem, productlist;

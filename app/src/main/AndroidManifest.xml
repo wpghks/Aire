@@ -33,14 +33,14 @@
         </activity>
 
 
-        <activity android:name=".ui.notifications.login"
+        <activity android:name=".ui.mypage.login"
             android:exported="true"
             android:parentActivityName=".MainActivity"/>
 
 
-        <activity android:name=".ui.notifications.join"
+        <activity android:name=".ui.mypage.join"
             android:exported="true"
-            android:parentActivityName=".ui.notifications.login">
+            android:parentActivityName=".ui.mypage.login">
         </activity>
         <activity android:name=".zzim"
             android:exported="true">

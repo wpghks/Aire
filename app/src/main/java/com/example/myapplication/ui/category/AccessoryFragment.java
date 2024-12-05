@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.dashboard;
+package com.example.myapplication.ui.category;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,19 +9,47 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.databinding.FragmentAccessoryBinding;
+import com.example.myapplication.databinding.FragmentPantsBinding;
+import com.example.myapplication.item.Product;
+import com.example.myapplication.item.ProductDatabaseHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccessoryFragment extends Fragment {
 
-    private FragmentAccessoryBinding binding;
+    private FragmentPantsBinding binding;
+    private RecyclerView recyclerView;
+    private CategoryAdapter categoryAdapter;
+    private ProductDatabaseHelper databaseHelper;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentAccessoryBinding.inflate(inflater, container, false);
+        binding = FragmentPantsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        // RecyclerView 초기화
+        recyclerView = root.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // 2열로 설정
+
+        // 데이터베이스 초기화
+        databaseHelper = new ProductDatabaseHelper(getContext());
+
+        // 데이터베이스에서 팬츠 데이터 가져오기
+        List<Product> acceList = databaseHelper.getProductsByCategory("악세서리");
+        if (acceList == null) {
+            acceList = new ArrayList<>(); // 빈 리스트로 초기화
+        }
+
+        // 어댑터 설정
+        categoryAdapter = new CategoryAdapter(acceList);
+        recyclerView.setAdapter(categoryAdapter);
 
 
         Button sh = root.findViewById(R.id.button);

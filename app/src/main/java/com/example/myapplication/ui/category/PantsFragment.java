@@ -1,11 +1,10 @@
-package com.example.myapplication.ui.dashboard;
+package com.example.myapplication.ui.category;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import com.example.myapplication.R;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,25 +12,26 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentPantsBinding;
-import com.example.myapplication.databinding.FragmentShirtsBinding;
 import com.example.myapplication.item.Product;
 import com.example.myapplication.item.ProductDatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShirtsFragment extends Fragment {
+public class PantsFragment extends Fragment {
 
-    private FragmentShirtsBinding binding;
+    private FragmentPantsBinding binding;
     private RecyclerView recyclerView;
     private CategoryAdapter categoryAdapter;
     private ProductDatabaseHelper databaseHelper;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentShirtsBinding.inflate(inflater, container, false);
+        binding = FragmentPantsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         // RecyclerView 초기화
@@ -42,48 +42,47 @@ public class ShirtsFragment extends Fragment {
         databaseHelper = new ProductDatabaseHelper(getContext());
 
         // 데이터베이스에서 팬츠 데이터 가져오기
-        List<Product> shirtsList = databaseHelper.getProductsByCategory("상의");
-        if (shirtsList == null) {
-            shirtsList = new ArrayList<>(); // 빈 리스트로 초기화
+        List<Product> pantsList = databaseHelper.getProductsByCategory("하의");
+        if (pantsList == null) {
+            pantsList = new ArrayList<>(); // 빈 리스트로 초기화
         }
 
         // 어댑터 설정
-        categoryAdapter = new CategoryAdapter(shirtsList);
+        categoryAdapter = new CategoryAdapter(pantsList);
         recyclerView.setAdapter(categoryAdapter);
 
+
         // 이동 버튼 설정
-        Button buttonNavigate = root.findViewById(R.id.button2);
-        buttonNavigate.setOnClickListener(v -> {
-            // 다른 프래그먼트로 이동
-            NavHostFragment.findNavController(ShirtsFragment.this)
-                    .navigate(R.id.action_navigation_shirts_to_navigation_pants); // 바지로 이동
+        Button sh = root.findViewById(R.id.button);
+        sh.setOnClickListener(v -> {
+            NavHostFragment.findNavController(PantsFragment.this)
+                    .navigate(R.id.action_navigation_pants_to_navigation_shirts); // 상의로 이동
         });
-        
+
         Button pa = root.findViewById(R.id.button3);
         pa.setOnClickListener(v -> {
-            // 다른 프래그먼트로 이동
-            NavHostFragment.findNavController(ShirtsFragment.this)
-                    .navigate(R.id.action_navigation_shirts_to_navigation_sports); // 스포츠로 이동
+            NavHostFragment.findNavController(PantsFragment.this)
+                    .navigate(R.id.action_navigation_pants_to_navigation_sports); // 스포츠로 이동
         });
+
         Button sp = root.findViewById(R.id.button4);
         sp.setOnClickListener(v -> {
-            // 다른 프래그먼트로 이동
-            NavHostFragment.findNavController(ShirtsFragment.this)
-                    .navigate(R.id.action_navigation_shirts_to_navigation_shoes); // 신발로 이동
+            NavHostFragment.findNavController(PantsFragment.this)
+                    .navigate(R.id.action_navigation_pants_to_navigation_shoes); // 신발로 이동
         });
+
         Button ou = root.findViewById(R.id.button5);
         ou.setOnClickListener(v -> {
-            // 다른 프래그먼트로 이동
-            NavHostFragment.findNavController(ShirtsFragment.this)
-                    .navigate(R.id.action_navigation_shirts_to_navigation_outer); // 아우터로 이동
+            NavHostFragment.findNavController(PantsFragment.this)
+                    .navigate(R.id.action_navigation_pants_to_navigation_outer); // 아우터로 이동
         });
+
         Button ac = root.findViewById(R.id.button6);
         ac.setOnClickListener(v -> {
-            // 다른 프래그먼트로 이동
-            NavHostFragment.findNavController(ShirtsFragment.this)
-                    .navigate(R.id.action_navigation_shirts_to_navigation_accessory); // 악세서리 이동
+            NavHostFragment.findNavController(PantsFragment.this)
+                    .navigate(R.id.action_navigation_pants_to_navigation_accessory); // 악세서리로 이동
         });
-        
+
         return root;
     }
 

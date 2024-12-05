@@ -26,9 +26,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.myapplication.ui.dashboard.DashboardFragment"
+        android:name="com.example.myapplication.ui.category.CategoryFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        tools:layout="@layout/fragment_category" >
 
         <action
             android:id="@+id/action_navigation_dashboard_to_navigation_shirts"
@@ -64,9 +64,9 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.myapplication.ui.notifications.NotificationsFragment"
+        android:name="com.example.myapplication.ui.mypage.MypageFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" >
+        tools:layout="@layout/fragment_mypage" >
         <action
             android:id="@+id/action_navigation_notifications_to_navigation_home"
             app:destination="@id/navigation_home" />
@@ -80,7 +80,7 @@
 
     <fragment
         android:id="@+id/navigation_pants"
-        android:name="com.example.myapplication.ui.dashboard.PantsFragment"
+        android:name="com.example.myapplication.ui.category.PantsFragment"
         android:label="상품"
         tools:layout="@layout/fragment_pants" >
         <action
@@ -107,7 +107,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_sports"
-        android:name="com.example.myapplication.ui.dashboard.SportsFragment"
+        android:name="com.example.myapplication.ui.category.SportsFragment"
         android:label="상품"
         tools:layout="@layout/fragment_sports" >
         <action
@@ -134,7 +134,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_shoes"
-        android:name="com.example.myapplication.ui.dashboard.ShoesFragment"
+        android:name="com.example.myapplication.ui.category.ShoesFragment"
         android:label="상품"
         tools:layout="@layout/fragment_shoes" >
         <action
@@ -162,7 +162,7 @@
 
     <fragment
         android:id="@+id/navigation_outer"
-        android:name="com.example.myapplication.ui.dashboard.OuterFragment"
+        android:name="com.example.myapplication.ui.category.OuterFragment"
         android:label="상품"
         tools:layout="@layout/fragment_outer" >
         <action
@@ -190,7 +190,7 @@
 
     <fragment
         android:id="@+id/navigation_shirts"
-        android:name="com.example.myapplication.ui.dashboard.ShirtsFragment"
+        android:name="com.example.myapplication.ui.category.ShirtsFragment"
         android:label="상품"
         tools:layout="@layout/fragment_shirts" >
         <action
@@ -235,7 +235,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_accessory"
-        android:name="com.example.myapplication.ui.dashboard.AccessoryFragment"
+        android:name="com.example.myapplication.ui.category.AccessoryFragment"
         android:label="상품"
         tools:layout="@layout/fragment_accessory" >
         <action
