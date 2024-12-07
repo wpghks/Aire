@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class zzim extends AppCompatActivity {
+public class zzim extends BaseActivity {
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +29,7 @@ public class zzim extends AppCompatActivity {
             startActivity(new Intent(this, zzim.class));
             return true;
         } else if (id == R.id.menu_search) {
-            startActivity(new Intent(this, search.class));
+            startActivity(new Intent(this, SearchActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

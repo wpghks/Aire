@@ -36,6 +36,9 @@
         <activity android:name=".ui.mypage.login"
             android:exported="true"
             android:parentActivityName=".MainActivity"/>
+        <activity android:name=".BaseActivity"
+            android:exported="true">
+        </activity>
 
 
         <activity android:name=".ui.mypage.join"
@@ -45,7 +48,7 @@
         <activity android:name=".zzim"
             android:exported="true">
         </activity>
-        <activity android:name=".search"
+        <activity android:name=".SearchActivity"
             android:exported="true">
         </activity>
         <activity android:name=".ui.mypage.CartActivity"

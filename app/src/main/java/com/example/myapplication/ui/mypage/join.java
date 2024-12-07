@@ -16,12 +16,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.BaseActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.helper;
-import com.example.myapplication.search;
+import com.example.myapplication.SearchActivity;
 import com.example.myapplication.zzim;
 
-public class join extends AppCompatActivity {
+public class join extends BaseActivity {
     private helper dbHelper;
     private SQLiteDatabase db;
     Button jo, ca;
@@ -103,7 +104,7 @@ public class join extends AppCompatActivity {
             startActivity(new Intent(this, zzim.class));
             return true;
         } else if (id == R.id.menu_search) {
-            startActivity(new Intent(this, search.class));
+            startActivity(new Intent(this, SearchActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

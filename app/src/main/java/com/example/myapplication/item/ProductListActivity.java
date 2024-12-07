@@ -4,10 +4,12 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.myapplication.BaseActivity;
 import com.example.myapplication.R;
 import java.util.List;
 
-public class ProductListActivity extends AppCompatActivity {
+public class ProductListActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private ProductItemAdapter adapter;

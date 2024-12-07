@@ -22,13 +22,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.myapplication.BaseActivity;
 import com.example.myapplication.R;
-import com.example.myapplication.search;
+import com.example.myapplication.SearchActivity;
 import com.example.myapplication.zzim;
 
 import org.jetbrains.annotations.Nullable;
 
-public class AddProductActivity extends AppCompatActivity {
+public class AddProductActivity extends BaseActivity {
 
     private EditText etProductName, etProductPrice, etProductDescription;
     private ImageView ivProductImage;
@@ -180,7 +181,7 @@ public class AddProductActivity extends AppCompatActivity {
             startActivity(new Intent(this, zzim.class));
             return true;
         } else if (id == R.id.menu_search) {
-            startActivity(new Intent(this, search.class));
+            startActivity(new Intent(this, SearchActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

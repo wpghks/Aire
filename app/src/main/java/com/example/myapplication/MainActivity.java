@@ -1,15 +1,14 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
+
 
 import com.example.myapplication.ui.mypage.login;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,15 +16,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.myapplication.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
+    private static final String TAG = "MainActivity";  // 태그를 정의합니다.
     private ActivityMainBinding binding;
-    private boolean isLoggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -41,13 +39,14 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.app_name);
 
-        Intent intent = getIntent();
-        isLoggedIn = intent.getBooleanExtra("isLoggedIn", false);
-        String id = intent.getStringExtra("USER_USERNAME");
-        String pw = intent.getStringExtra("USER_PASSWORD");
-        String name = intent.getStringExtra("USER_NAME");
-        String phone = intent.getStringExtra("USER_PHONE");
-        String address = intent.getStringExtra("USER_ADDRESS");
+        // SharedPreferences에서 로그인 상태 확인
+        SharedPreferences prefs = getSharedPreferences("loginPref", MODE_PRIVATE);
+        boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
+        String id = prefs.getString("username", "");
+        String pw = prefs.getString("password", "");
+        String name = prefs.getString("name", "");
+        String phone = prefs.getString("phone", "");
+        String address = prefs.getString("address", "");
 
         navView.setOnItemSelectedListener(menuItem -> {
             int itemId = menuItem.getItemId();
@@ -60,12 +59,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             } else if (itemId == R.id.navigation_notifications) {
-
-                // 마이페이지 항목 클릭 처리
-                if (!isLoggedIn) { // 로그인되어 있지 않은 경우 로그인화면으로 이동
-                    startActivity(new Intent(MainActivity.this, login.class));
+                // 로그인 여부 확인
+                if (!isLoggedIn) { // 로그인되지 않은 경우
+                    Log.d(TAG, "User is not logged in, redirecting to login screen");
+                    startActivity(new Intent(MainActivity.this, login.class)); // 로그인 화면으로 이동
+                    return true;
                 } else {
-                    // 데이터 담기
+                    Log.d(TAG, "User is logged in, navigating to MyPage with data");
+                    // 로그인된 경우, 사용자 정보를 Bundle로 담아 마이페이지 프래그먼트로 이동
                     Bundle bundle = new Bundle();
                     bundle.putString("USER_USERNAME", id);
                     bundle.putString("USER_PASSWORD", pw);
@@ -75,30 +76,10 @@ public class MainActivity extends AppCompatActivity {
 
                     // 마이페이지 프래그먼트로 데이터 전달
                     navController.navigate(R.id.navigation_notifications, bundle);
+                    return true;
                 }
-                return true;
             }
             return false;
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // 액션바에 메뉴를 인플레이트
-        getMenuInflater().inflate(R.menu.top_nav_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menu_zzim) {
-            startActivity(new Intent(this, zzim.class));
-            return true;
-        } else if (id == R.id.menu_search) {
-            startActivity(new Intent(this, search.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

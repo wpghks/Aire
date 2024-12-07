@@ -266,7 +266,7 @@
         android:label="AddProductActivity" />
     <activity
         android:id="@+id/search"
-        android:name="com.example.myapplication.search"
+        android:name="com.example.myapplication.SearchActivity"
         android:label="search"
         tools:layout="@layout/search" />
     <activity

@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.mypage;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +15,13 @@ import androidx.fragment.app.Fragment;
 import com.example.myapplication.databinding.FragmentMypageBinding;
 import com.example.myapplication.item.AddProductActivity;
 import com.example.myapplication.item.ProductListActivity;
+import com.example.myapplication.BaseActivity;
+import com.example.myapplication.ui.mypage.login;
 
 public class MypageFragment extends Fragment {
 
     private TextView inid;
-    private Button initem, productlist, cart;
+    private Button initem, productlist, cart, logout;
     private FragmentMypageBinding binding;
     private String correctId = "yjh11080";
 
@@ -33,6 +36,7 @@ public class MypageFragment extends Fragment {
         // TextView 및 Button 초기화
         inid = binding.inid;
         initem = binding.initem;
+        logout = binding.logout;
         productlist = binding.productlist;
         cart = binding.cart;  // 카트 버튼 추가
 
@@ -74,11 +78,33 @@ public class MypageFragment extends Fragment {
                     startActivity(intent);
                 });
             } else {
-                initem.setVisibility(View.INVISIBLE);
-                productlist.setVisibility(View.INVISIBLE); // 버튼 숨기기
-                cart.setVisibility(View.INVISIBLE); // 카트 버튼 숨기기
+                initem.setVisibility(View.INVISIBLE); // 버튼 숨기기
+                productlist.setVisibility(View.INVISIBLE);
             }
         }
+
+        // 로그아웃 버튼 클릭 리스너 추가
+        logout.setOnClickListener(v -> {
+            // SharedPreferences에서 로그인 정보 삭제
+            SharedPreferences.Editor editor = getActivity().getSharedPreferences("loginPref", getActivity().MODE_PRIVATE).edit();
+            editor.putBoolean("isLoggedIn", false);
+            editor.remove("username");
+            editor.remove("password");
+            editor.remove("name");
+            editor.remove("phone");
+            editor.remove("address");
+            editor.apply();
+
+            // BaseActivity에서 로그아웃 처리
+            if (getActivity() instanceof BaseActivity) {
+                ((BaseActivity) getActivity()).onLogout();
+            }
+
+            // 로그인 화면으로 이동
+            Intent intent = new Intent(getActivity(), login.class);
+            startActivity(intent);
+            getActivity().finish();  // 현재 액티비티 종료
+        });
 
         return root;
     }

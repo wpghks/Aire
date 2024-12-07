@@ -9,9 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.BaseActivity;
 import com.example.myapplication.R;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends BaseActivity {
 
     private Cart cart;  // 장바구니 객체
     private RecyclerView recyclerView;

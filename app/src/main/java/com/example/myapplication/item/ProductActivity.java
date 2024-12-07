@@ -9,9 +9,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.BaseActivity;
 import com.example.myapplication.R;
 
-public class ProductActivity extends AppCompatActivity {
+public class ProductActivity extends BaseActivity {
 
 
     @Override
