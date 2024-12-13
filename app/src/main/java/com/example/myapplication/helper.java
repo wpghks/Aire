@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -41,6 +42,28 @@ public class helper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         onCreate(db);
     }
+
+    public void updateUserInfo(String username, String newName, String newPassword, String newAddress, String newPhone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 수정할 데이터 업데이트
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, newName);
+        values.put(COLUMN_PASSWORD, newPassword);
+        values.put(COLUMN_ADDRESS, newAddress);
+        values.put(COLUMN_PHONE, newPhone);
+
+        // WHERE 절을 사용하여 특정 사용자의 정보를 업데이트
+        String selection = COLUMN_USERNAME + " = ?";
+        String[] selectionArgs = { username };
+
+        db.update(TABLE_USERS, values, selection, selectionArgs);
+        db.close();
+    }
+
+
+
+
 
     // 중복 체크 메서드
     public boolean isUsernameAvailable(String username) {

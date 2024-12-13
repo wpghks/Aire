@@ -39,6 +39,9 @@
         <activity android:name=".BaseActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".ui.mypage.EditProfileActivity"
+            android:exported="true">
+        </activity>
 
 
         <activity android:name=".ui.mypage.join"

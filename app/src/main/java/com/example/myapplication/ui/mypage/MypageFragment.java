@@ -21,7 +21,7 @@ import com.example.myapplication.ui.mypage.login;
 public class MypageFragment extends Fragment {
 
     private TextView inid;
-    private Button initem, productlist, cart, logout;
+    private Button initem, productlist, cart, logout, editprofile;
     private FragmentMypageBinding binding;
     private String correctId = "yjh11080";
 
@@ -38,6 +38,7 @@ public class MypageFragment extends Fragment {
         initem = binding.initem;
         logout = binding.logout;
         productlist = binding.productlist;
+        editprofile = binding.editprofile;
         cart = binding.cart;  // 카트 버튼 추가
 
         // 전달된 데이터로 UI 업데이트
@@ -68,6 +69,12 @@ public class MypageFragment extends Fragment {
                 initem.setOnClickListener(v -> {
                     // AddProductActivity로 이동
                     Intent intent = new Intent(getActivity(), AddProductActivity.class);
+                    startActivity(intent);
+                });
+
+                editprofile.setOnClickListener(v -> {
+                    // EditProfileActivity 이동
+                    Intent intent = new Intent(getActivity(), EditProfileActivity.class);
                     startActivity(intent);
                 });
 

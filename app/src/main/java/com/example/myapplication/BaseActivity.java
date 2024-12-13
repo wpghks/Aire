@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,6 +64,30 @@ public class BaseActivity extends AppCompatActivity {
     public void onLogout() {
         // 로그아웃 처리 (예: UI 업데이트, 추가 작업)
     }
+
+    public void updateProfile(String username, String name, String password, String address, String phone) {
+        SharedPreferences prefs = getSharedPreferences("loginPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        // SharedPreferences에 수정된 정보 저장
+        editor.putString("username", username);
+        editor.putString("name", name);
+        editor.putString("password", password);
+        editor.putString("address", address);
+        editor.putString("phone", phone);
+        editor.apply();
+
+        // 현재 Activity의 사용자 정보를 업데이트
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.address = address;
+        this.phone = phone;
+
+        // 수정 완료 후 UI 업데이트 또는 확인 메시지 추가
+        Toast.makeText(this, "정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
