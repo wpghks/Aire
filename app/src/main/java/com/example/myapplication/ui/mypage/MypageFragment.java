@@ -49,7 +49,10 @@ public class MypageFragment extends Fragment {
             String phone = getArguments().getString("USER_PHONE", "");
             String add = getArguments().getString("USER_ADDRESS", "");
 
-            // inid에 name 설정
+            // inid에 name 설정 (name이 없으면 기본값 사용)
+            if (name.isEmpty()) {
+                name = "사용자";  // 기본값 설정
+            }
             inid.setText(name + "님 환영합니다");
 
             // 아이디 비교 및 버튼 가시성 설정

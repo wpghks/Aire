@@ -1,9 +1,11 @@
 package com.example.myapplication.ui.mypage;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +18,9 @@ public class EditProfileActivity extends BaseActivity {
     private TextView usernameTextView;
     private EditText nameEditText, passwordEditText, emailEditText, phoneEditText;
     private Button saveButton;
+    private ImageView eyeIcon;
     private helper dbHelper;
+    private boolean isPasswordVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,8 @@ public class EditProfileActivity extends BaseActivity {
         emailEditText = findViewById(R.id.emailEditText);
         phoneEditText = findViewById(R.id.phoneEditText);
         saveButton = findViewById(R.id.saveButton);
+        eyeIcon = findViewById(R.id.eyeIcon);
+
 
 
         // helper 객체 초기화
@@ -76,6 +82,21 @@ public class EditProfileActivity extends BaseActivity {
                     finish();
                 }
             }
+        });
+        // 아이콘 클릭 리스너 추가
+        eyeIcon.setOnClickListener(v -> {
+            if (isPasswordVisible) {
+                // 비밀번호 숨기기
+                passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                eyeIcon.setImageResource(R.drawable.ic_eye_off);  // 숨김 아이콘
+            } else {
+                // 비밀번호 보이기
+                passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                eyeIcon.setImageResource(R.drawable.ic_eye_on);  // 보임 아이콘
+            }
+            // 커서 위치 재설정
+            passwordEditText.setSelection(passwordEditText.getText().length());
+            isPasswordVisible = !isPasswordVisible;
         });
     }
 }

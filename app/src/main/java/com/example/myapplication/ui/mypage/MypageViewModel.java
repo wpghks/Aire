@@ -6,11 +6,8 @@ import androidx.lifecycle.ViewModel;
 public class MypageViewModel extends ViewModel {
 
 
-
-
     public MypageViewModel() {
 
     }
-
 
 }
