@@ -9,5 +9,5 @@ public class MypageViewModel extends ViewModel {
     public MypageViewModel() {
 
     }
-
+ //view Model
 }
